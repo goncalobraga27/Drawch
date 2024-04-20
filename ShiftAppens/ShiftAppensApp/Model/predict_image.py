@@ -4,7 +4,7 @@ import sys
 from tensorflow.keras.models import load_model
 
 # categories_model1 = ['airplane', 'ant', 'axe', 'banana', 'bicycle', 'bridge', 'butterfly', 'castle', 'cat', 'chair', 'diamond', 'donut', 'The_Eiffel_Tower']
-categories = ['apple', 'banana', 'cup', 'finger', 'fish', 'key', 'smiley face', 'sock', 'sword']
+categories = ['apple', 'banana', 'cup', 'finger', 'fish', 'key', 'smiley_face', 'sock', 'sword']
 
 def convert_to_grayscale_bitmap(input):
     # Load the black and white image using OpenCV
