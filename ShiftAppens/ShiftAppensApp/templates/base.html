@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} Django App {% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* Adicionando estilos personalizados para centralizar e aumentar os botões */
         html, body {
@@ -12,16 +13,29 @@
             margin: 0;
             padding: 0;
             /* Adicionando imagem de fundo */
-            background-image: url('/static/images/background.jpeg');
+            background-image: url('background.jpeg');
             background-size: cover; /* Cobrir toda a área disponível */
             background-position: center; /* Centralizar a imagem */
+        }
+
+        .navbar {
+            background: transparent; /* Cor de fundo com transparência */
+        }
+
+        .navbar-brand img {
+            max-width: 100px;
+            max-height: 50px;
+        }
+
+        .navbar-nav .nav-link {
+            color: transparent /* Cor do texto do link */
         }
 
         .btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Define a altura da tela inteira */
+            height: calc(100vh - 56px); /* Define a altura da tela inteira, subtraindo a altura da barra de navegação */
         }
 
         .btn-lg {
@@ -32,30 +46,44 @@
         .btn-container .btn {
             margin: 0 50px; /* Margem horizontal entre os botões */
         }
+        .btn-transparent {
+             background-color: transparent;
+             border-color: transparent;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Shift Appens App</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background: rgba(255, 255, 255, 0);">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="/">
+                        <img src="../home.png" alt="Home" style="height: 60px;"> <!-- Substitua "casa.png" pelo caminho da imagem da casa -->
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about">About</a>
+                    <a class="nav-link" href="about">
+                        <img src="../about.png" alt="About" style="height: 60px;"> <!-- Substitua "trancinhos.png" pelo caminho da imagem dos trancinhos -->
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contacts">Contact</a>
+                    <a class="nav-link" href="contacts">
+                        <img src="../website.png" alt="Contact" style="height: 60px;"> <!-- Substitua "website.png" pelo caminho da imagem do ícone de website -->
+                    </a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container">
-      <a href="paint">
-        <button type="button" class="btn btn-primary btn-lg">Abrir caixa de desenho</button>
-      </a>
+    
+    <div class="btn-container">
+        <!-- Adicionado o contêiner ao redor do botão -->
+        <a href="paint">
+            <!-- Use a classe "btn-transparent" para tornar o botão transparente -->
+            <button type="button" class="btn btn-transparent btn-lg text-dark">Abrir caixa de desenho</button>
+        </a>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
