@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse
 import os
 from django.http import FileResponse, HttpResponseNotFound
+import subprocess
+from django.http import JsonResponse
 # Create your views here.
 def home(request):
     return render(request,"home.html")
@@ -55,3 +57,16 @@ def get_about(request):
         return FileResponse(open(background_path, 'rb'), content_type='image/png')
     else:
         return HttpResponseNotFound()
+
+def run_python_script(request):
+    script_name = 'ShiftAppensApp/Model/predict_image.py'
+    name_image = request.GET.get('name_image')
+    args = ['/Users/goncalobraga/Downloads/'+name_image]  # Replace with your script arguments if any
+    print('/Users/goncalobraga/Downloads/'+name_image)
+
+
+    try:
+        result = subprocess.check_output(['python', script_name] + args, stderr=subprocess.STDOUT)
+        return JsonResponse({"output": result.decode('utf-8')})
+    except subprocess.CalledProcessError as e:
+        return JsonResponse({"error": e.output.decode('utf-8')}, status=500)

@@ -39,7 +39,7 @@ if __name__ == "__main__":
     x = x.reshape(x.shape[0], 28, 28, 1).astype('float32')
     x /= 255.0
 
-    model = load_model("pretrained_model.h5")
+    model = load_model("ShiftAppensApp/Model/pretrained_model.h5")
     predictions = model.predict(x)
     
     maxProb = 0

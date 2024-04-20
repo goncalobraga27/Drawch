@@ -12,5 +12,6 @@ urlpatterns = [
     path("favicon.png",views.get_favicon,name="get_favicon"),
     path("home.png",views.get_home,name="get_home"),
     path("website.png",views.get_website,name="get_website"),
-    path("about.png",views.get_about,name="get_about")
+    path("about.png",views.get_about,name="get_about"),
+    path("run",views.run_python_script,name="run_python_script")
 ]

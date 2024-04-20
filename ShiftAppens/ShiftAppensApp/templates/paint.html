@@ -90,6 +90,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+    
     window.onload = function() {
         // Obtenha o elemento canvas
         var canvas = document.getElementById('canvas');
@@ -141,37 +142,67 @@
 
         // Upload da imagem 
         document.getElementById('upload').addEventListener('click', function() {
+            // PATH - /downloads/image.png
             // Converta o conteúdo do canvas em uma imagem
             var imageDataURL = canvas.toDataURL('image/png');
 
-            // Crie um novo objeto de imagem
-            var img = new Image();
-            img.src = imageDataURL;
+            var tempCanvas = document.createElement('canvas');
+            var tempContext = tempCanvas.getContext('2d');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
 
-            // Quando a imagem estiver carregada, faça o upload dela
-            img.onload = function() {
-                // Crie um formulário de dados para enviar a imagem
-                var formData = new FormData();
-                formData.append('image', img);
+            // Preencha o canvas temporário com um retângulo branco
+            tempContext.fillStyle = 'white'; // Cor branca
+            tempContext.fillRect(0, 0, tempCanvas.width, tempCanvas.height); // Desenhe um retângulo branco
 
-                // Envie a imagem para o servidor (sua API)
-                fetch('URL_DO_SEU_SERVIDOR/upload', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Lógica para processar o resultado da classificação
-                    const classificationResult = data.result;
+            // Desenhe a imagem no canvas temporário
+            tempContext.drawImage(canvas, 0, 0);
 
-                    // Passo 5: Realizar uma busca no Google com base no resultado da classificação
-                    searchOnGoogle(classificationResult);
+            // Converta o conteúdo do canvas temporário em uma imagem com fundo branco
+            var imageDataURL = tempCanvas.toDataURL('image/png');
+            // Crie um link de download
+            var downloadLink = document.createElement('a');
+            downloadLink.href = imageDataURL;
+            var image_name = new Date().getTime().toString(); 
+            downloadLink.download = `${image_name}.png`; // Nome que a imagem terá quando for baixada
+
+            // Adicione o link à página e clique nele para iniciar o download
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            runPythonScript(`${image_name}.png`);
+
+            // Limpe o link depois que o download estiver completo
+            document.body.removeChild(downloadLink);
+
+            function runPythonScript(image_name) {
+                    var url = '/run?name_image=' + encodeURIComponent(image_name);
+                    fetch(url, {
+                        method: 'GET',  // Or 'POST' depending on your view implementation
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                    if (data.output) {
+                        // console.log(`Python script output: ${data.output}`);
+                        // Find the index of the last space character
+                        var lastIndex = data.output.lastIndexOf(' ');
+                        console.log(lastIndex)
+                        // Extract the substring starting from the character after the last space
+                        var prediction = data.output.substring(lastIndex + 1);
+                        
+                        console.log(prediction);
+                        window.open('http://google.com/search?q=' + prediction);
+                    } else if (data.error) {
+                        console.error(`Error executing Python script: ${data.error}`);
+                    }
                 })
                 .catch(error => {
-                    console.error('Erro ao enviar a imagem para o servidor:', error);
+                    console.error('Error calling Django view:', error);
                 });
-    };
-});
+            }
+         
+        });
+           
+        };
 
 
         // Upload da imagem no servidor 
@@ -196,8 +227,11 @@
             .catch(error => {
                 console.error('Erro ao enviar a imagem para o servidor:', error);
             });
-});
-};
+}
+
+
+);
+
 </script>
 </body>
 </html>
