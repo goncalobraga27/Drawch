@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplicativo de Pintura</title>
+<style>
+    /* Set body background color to ecru */
+    body {
+        background-color: ecru;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    /* Style the canvas */
+    canvas {
+        border: 2px solid black;
+    }
+
+    /* Style the controls */
+    #controls {
+        margin-top: 20px;
+    }
+
+    /* Style the mouse tracking */
+    #mousePosition {
+        margin-top: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+</style>
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Container for canvas and controls -->
+    <div id="container">
+        <!-- Área de desenho do aplicativo de pintura -->
+        <canvas id="canvas"></canvas>
+        <!-- Controles do aplicativo de pintura -->
+        <div id="controls">
+            <button id="clear">Limpar</button>
+            <button id="export">Exportar Imagem</button>
+            <!-- Adicione outros controles conforme necessário -->
+        </div>
+    </div>
+    
+    <!-- Área para exibir as coordenadas do rato -->
+    <div id="mousePosition"></div>
+
+    <script>
+    window.onload = function() {
+        // Obtenha o elemento canvas
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+
+        // Defina o tamanho do canvas
+        canvas.width = 600;
+        canvas.height = 400;
+
+        // Variáveis para armazenar o estado do desenho
+        var painting = false;
+        var lastX = 0;
+        var lastY = 0;
+
+        // Função para desenhar na tela
+        function draw(e) {
+            if (!painting) return;
+            context.lineWidth = 5; // Defina a largura da linha
+            context.lineCap = 'round'; // Defina o estilo da ponta da linha
+            context.strokeStyle = '#000'; // Defina a cor da linha
+            context.beginPath();
+            context.moveTo(lastX, lastY); // Mova o cursor para a posição anterior
+            context.lineTo(e.offsetX, e.offsetY); // Desenhe uma linha até a nova posição
+            context.stroke();
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+            updateMousePosition(e.offsetX, e.offsetY); // Atualiza as coordenadas do rato
+        }
+
+        // Função para atualizar as coordenadas do rato
+        function updateMousePosition(x, y) {
+            var mousePosition = document.getElementById('mousePosition');
+            mousePosition.textContent = 'Posição do rato: (' + x + ', ' + y + ')';
+        }
+
+        // Evento de pressionar o botão do mouse
+        canvas.addEventListener('mousedown', function(e) {
+            painting = true;
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+            draw(e);
+        });
+
+        // Evento de soltar o botão do mouse
+        canvas.addEventListener('mouseup', function() {
+            painting = false;
+        });
+
+        // Evento de mover o mouse
+        canvas.addEventListener('mousemove', draw);
+
+        // Limpar o canvas
+        document.getElementById('clear').addEventListener('click', function() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Exportar a imagem
+        document.getElementById('export').addEventListener('click', function() {
+            // Salvar a imagem desenhada em uma variável temporária
+            var tempImage = new Image();
+            tempImage.src = canvas.toDataURL("image/png");
+
+            // Preencher o canvas com a cor branca
+            context.fillStyle = "#ffffff"; // cor branca
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Desenhar a imagem temporária no canvas
+            tempImage.onload = function() {
+                context.drawImage(tempImage, 0, 0);
+                
+                // Exportar a imagem
+                var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                var link = document.createElement('a');
+                link.download = 'canvas_image.png';
+                link.href = image;
+                link.click();
+            };
+        });
+    };
+    </script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
