@@ -70,3 +70,10 @@ def run_python_script(request):
         return JsonResponse({"output": result.decode('utf-8')})
     except subprocess.CalledProcessError as e:
         return JsonResponse({"error": e.output.decode('utf-8')}, status=500)
+    
+def get_logo(request):
+    background_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo.jpeg")
+    if os.path.exists(background_path):
+        return FileResponse(open(background_path, 'rb'), content_type='image/jpeg')
+    else:
+        return HttpResponseNotFound()
