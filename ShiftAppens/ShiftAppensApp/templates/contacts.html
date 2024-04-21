@@ -14,11 +14,13 @@
         }
         .container {
             max-width: 600px;
-            margin: 20px auto;
+            margin: 350px;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
         }
         h1 {
             text-align: center;
@@ -41,9 +43,52 @@
         a:hover {
             text-decoration: underline;
         }
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Para garantir que a navbar esteja sempre acima do conteúdo */
+        }
+        .navbar-nav {
+            display: flex;
+            justify-content: flex-start; /* Alinha os itens no início da Navbar */
+            width: 100%; /* Ocupa toda a largura disponível */
+            padding-left: 0; /* Remove o espaçamento padrão do lado esquerdo */
+        }
+        .navbar-nav .nav-item {
+            margin-right: 20px; /* Espaçamento entre os itens da navbar */
+            list-style-type: none; /* Remove o ponto de lista */
+        }
+        .navbar-brand img {
+            max-width: 10px;
+            max-height: 50px;
+        }
+        .navbar-nav .nav-link {
+            color: transparent; /* Cor do texto do link */
+        }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background: rgba(255, 255, 255, 0);">
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">
+                        <img src="../home.png" alt="Home" style="height: 60px;"> <!-- Substitua "casa.png" pelo caminho da imagem da casa -->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about">
+                        <img src="../about.png" alt="About" style="height: 60px;"> <!-- Substitua "trancinhos.png" pelo caminho da imagem dos trancinhos -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Fim da Navbar -->
+
     <div class="container">
         <h1>Contacts</h1>
         <ul>
