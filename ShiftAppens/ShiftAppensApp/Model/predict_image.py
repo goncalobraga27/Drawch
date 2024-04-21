@@ -4,7 +4,8 @@ import sys
 from tensorflow.keras.models import load_model
 
 # categories_model1 = ['airplane', 'ant', 'axe', 'banana', 'bicycle', 'bridge', 'butterfly', 'castle', 'cat', 'chair', 'diamond', 'donut', 'The_Eiffel_Tower']
-categories = ['apple', 'banana', 'cup', 'finger', 'fish', 'key', 'smiley_face', 'sock', 'sword']
+# categories = ['apple', 'banana', 'cup', 'finger', 'fish', 'key', 'smiley_face', 'sock', 'sword']
+categories = ['buttlerfly', 'castle', 'fish']
 
 def convert_to_grayscale_bitmap(input):
     # Load the black and white image using OpenCV
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     x = x.reshape(x.shape[0], 28, 28, 1).astype('float32')
     x /= 255.0
 
-    model = load_model("ShiftAppensApp/Model/pretrained_model2.h5")
+    model = load_model("ShiftAppensApp/Model/pretrained_modeldemo.h5")
     predictions = model.predict(x)
     
     maxProb = 0
