@@ -4,8 +4,8 @@ Motor de busca via desenho.
 
 ## Membros da equipa:
 
-1. Gonçalo Santos
-2. Gonçalo Braga
+* Gonçalo Santos ([goncalosantos3](https://github.com/goncalosantos3))
+* Gonçalo Braga ([goncalobraga27](https://github.com/goncalobraga27)))
 
 ## Funcionamento
 
